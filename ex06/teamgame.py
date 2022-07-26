@@ -3,10 +3,10 @@ import pygame as pg            # pygameモジュールをpgとして読み込む
 import random
 from random import randint     # randomモジュール内にあるrandint関数を読み込む
 
-BARS_NUM = 5  # 落ちてくる障害物の最大数
+BARS_NUM = 5   # 落ちてくる障害物の最大数
 
 # 弾数の実装のための変数
-rz_num = 10 # 弾数を10で初期化
+rz_num = 10  # 弾数を10で初期化
 
 # メインの画面を生成するクラス
 class Screen:
@@ -189,18 +189,18 @@ def main():
     # 時間に関する変数:岡田
     time = 0
     # 弾数に関する変数:岡田
-    inv_point = 0 # 無敵ゲージを0で初期化
-    inv = False   # 無敵かどうかの判定する変数
-    st = 0        # 無敵の開始時刻を保存する変数
-
+    inv_point = 0  # 無敵ゲージを0で初期化
+    inv = False    # 無敵かどうかの判定する変数
+    st = 0         # 無敵の開始時刻を保存する変数
+ 
     clock = pg.time.Clock() # 時間計測用のオブジェクト
 
     # BGMを再生する関数の呼び出し:山本
     sound()
 
     # スクリーンの生成
-    screen = Screen("", (700, 900), "fig/pg_bg.jpg") # スクリーンクラスの生成
-    screen.blit()                                    # スクリーンの生成
+    screen = Screen("", (700, 900), "fig/pg_bg.jpg")   # スクリーンクラスの生成
+    screen.blit()                                      # スクリーンの生成
 
     # 操作するキャラクターの生成
     player = Player("fig/5.png", 1.5, (350, 848), 500)
@@ -219,7 +219,7 @@ def main():
     time_text = Text(f"Time:{time: .1f}", (10, 10))   # 経過した時間テキストの生成
     hp_text = Text(f"HP:{player.hp}", (500, 10))      # プレイヤーの残りHPテキストの生成
     score_text = Text(f"Score:{0}", (10, 80))         # スコアテキストの生成
-    rz_num_text = Text(f"rz_num:{rz_num}", (10, 150)) # 弾数テキストの生成
+    rz_num_text = Text(f"rz_num:{rz_num}", (10, 150))  # 弾数テキストの生成
     over_text = Text("GAME OVER", (170, 450))         # GAME OVERテキストの生成
 
     # 弾数を追加するアイテムを生成:岡田
@@ -249,9 +249,9 @@ def main():
             bar.update(screen)
 
             # ダメージ判定を受けたときの処理:横井
-            if player.rct.colliderect(bar.rct) and (not inv): # こうかとんがbarに当たっているとき
-                damage(screen.sfc, 0.5) # 画面を赤く変化させる
-                player.hp -= 1 # HPが1ずつ減少
+            if player.rct.colliderect(bar.rct) and (not inv):  # こうかとんがbarに当たっているとき
+                damage(screen.sfc, 0.5)  # 画面を赤く変化させる
+                player.hp -= 1  # HPが1ずつ減少
 
         # 時間を画面上に表示する:横井
         time_text.text = f"Time:{time: .1f}"
@@ -279,9 +279,9 @@ def main():
         # HPが0以下のときゲームを終了してそれ以外ならゲームを続行する:横井
         if player.hp <= 0:
             player.hp = 0
-            player = Player("fig/8.png", 1.5, (350, 390), 0) # 画面の真ん中にこうかとんを移動させ、固定す
-            over_text.blit(screen) # 画面の真ん中にGAME OVERを表示する
-            bars.clear() # 全てのbarを削除
+            player = Player("fig/8.png", 1.5, (350, 390), 0)  # 画面の真ん中にこうかとんを移動させ、固定す
+            over_text.blit(screen)  # 画面の真ん中にGAME OVERを表示する
+            bars.clear()  # 全てのbarを削除
         else:
             time = float(pg.time.get_ticks()/1000) # 時間を計測する
 
@@ -290,24 +290,24 @@ def main():
             point+=1
 
         # アイテムを拾ったときに弾数を追加をする機能:岡田
-        if 0 <= time % 25 <= 0.01: # 25秒おき
-            rz_plus = Item(10, (255, 0, 0), screen) # 画面内に弾数追加アイテムを生成
-            for bar in bars: # 障害物と被らないように
+        if 0 <= time % 25 <= 0.01:  # 25秒おき
+            rz_plus = Item(10, (255, 0, 0), screen)  # 画面内に弾数追加アイテムを生成
+            for bar in bars:  # 障害物と被らないように
                 while rz_plus.rct.colliderect(bar.rct):
                     rz_plus = Item(10, (255, 0, 0), screen)
         rz_plus.update(screen)
 
         # アイテムを拾ったときに体力を追加をする機能:岡田
-        if 0 <= time % 40 <= 0.01: # 40秒おき
-            heal = Item(10, (0, 128, 0), screen) # 画面内に体力回復アイテムを生成
-            for bar in bars: # 障害物と被らないように
+        if 0 <= time % 40 <= 0.01:  # 40秒おき
+            heal = Item(10, (0, 128, 0), screen)  # 画面内に体力回復アイテムを生成
+            for bar in bars:  # 障害物と被らないように
                 while heal.rct.colliderect(bar.rct):
                     heal = Item(10, (0, 128, 0), screen)
         heal.update(screen)
 
 
         # 弾数追加アイテムとプレイヤーがぶつかったときに回復アイテムを画面から消して弾数を追加:岡田
-        if player.rct.colliderect(rz_plus.rct): # 弾数追加の処理
+        if player.rct.colliderect(rz_plus.rct):  # 弾数追加の処理
             rz_num += 3
             for i in range(3):
                 rz_list.append(Razer((10,20),(255,0,0),rz_num,screen,player))
