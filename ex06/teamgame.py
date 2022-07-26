@@ -35,12 +35,12 @@ class Player:
         scr.sfc.blit(self.sfc, self.rct)
     
     def update(self, scr: Screen):
-        key_states = pg.key.get_pressed() # 辞書
+        key_states = pg.key.get_pressed()  # 辞書
         if key_states[pg.K_LEFT]:
             self.rct.centerx -= 1.0
         if key_states[pg.K_RIGHT]:
             self.rct.centerx += 1.0
-        if check_bound(self.rct, scr.rct) != (1, 1): # 領域外だったら
+        if check_bound(self.rct, scr.rct) != (1, 1):  # 領域外だったら
             if key_states[pg.K_LEFT]:
                 self.rct.centerx += 1.0
             if key_states[pg.K_RIGHT]:
@@ -333,9 +333,9 @@ def main():
                         inv_point += 1
 
         # 無敵の確認:岡田
-        if time - st > 10: # 無敵は10秒継続
+        if time - st > 10:  # 無敵は10秒継続
             inv = False
-        if inv: # 無敵中に画面を黄色にする:岡田
+        if inv:  # 無敵中に画面を黄色にする:岡田
             screen.sfc.fill((255, 255, 0), special_flags = pg.BLEND_MULT)
 
         # 画面のばつボタンをクリックしたときに終了する
@@ -348,18 +348,18 @@ def main():
                 if event.key == pg.K_LSHIFT and inv_point == 10:
                     inv_point = 0
                     inv = True
-                    st = time # 無敵の開始時刻を保存
+                    st = time  #無敵の開始時刻を保存
             
                 # スペースキーを押したときに弾を打つ:金
                 if event.key == pg.K_SPACE:
-                    x+=1 #xは弾を撃ったかどうか判断する。これがないと弾がない状態でupdateするためエラーになる
-                    if len(rz_list)>0: #リストに中身があるならレーザーを取り出す
+                    x+=1  #xは弾を撃ったかどうか判断する。これがないと弾がない状態でupdateするためエラーになる
+                    if len(rz_list)>0:  #リストに中身があるならレーザーを取り出す
                         rz=rz_list.pop(0)
                         rz.rct.centerx = player.rct.centerx
                         rz_num -= 1
                         rz.update(screen)
         
-        pg.display.update()   # 画面を更新する
+        pg.display.update()  # 画面を更新する
         clock.tick(1000)
 
 
